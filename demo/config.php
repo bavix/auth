@@ -18,29 +18,33 @@ return [
         'expires'   => \Carbon\Carbon::now()->addWeek()
     ],
 
+    'stores' => [
+
+        'session' => [
+            'key'   => 'bavixAuth',
+            'class' => \Bavix\Context\Session::class,
+        ],
+
+        'cookies' => [
+            'key'     => 'bavixAuth',
+            'class'   => \Bavix\Context\Cookies::class,
+            'persist' => 'session'
+        ],
+
+    ],
+
     'providers' => [
 
         /**
          * password provider
          */
         'password' => [
-
-            'class' => \Bavix\Auth\Providers\PasswordProvider::class,
+            'class'     => \Bavix\Auth\Providers\PasswordProvider::class,
             'validator' => \Bavix\Auth\Validator::class,
 
-            'loginFields' => ['email'],
-            'hashField'   => 'password',
-
-            'persist' => [
-
-                'session' => [
-                    'class' => \Bavix\Auth\Providers\StoreProvider::class
-                ],
-
-                'cookies' => [
-                    'class' => \Bavix\Auth\Providers\StoreProvider::class
-                ],
-
+            'options' => [
+                'loginFields' => ['email'],
+                'hashField'   => 'password',
             ]
         ]
 

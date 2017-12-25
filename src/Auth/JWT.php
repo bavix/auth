@@ -33,11 +33,11 @@ class JWT
     /**
      * JWT constructor.
      *
-     * @param string     $algo
+     * @param string     $alg
      * @param string     $key
      * @param Carbon|int $time
      */
-    public function __construct(string $algo, string $key, $time)
+    public function __construct(string $alg, string $key, $time)
     {
         $this->carbon  = Carbon::now();
         $this->expires = $time;
@@ -48,7 +48,7 @@ class JWT
                 ->addSeconds($time);
         }
 
-        $this->alg = $algo;
+        $this->alg = $alg;
         $this->key = $key;
     }
 

@@ -11,16 +11,11 @@ $auth = new \Bavix\Auth\Auth($slice);
 // login
 
 /**
- * @var $password \Bavix\Auth\Providers\PasswordProvider
+ * @var $provider \Bavix\Auth\Providers\PasswordProvider
  */
 $provider = $auth->provider('password');
 
-$isLogin = $provider->login(
-    $email,
-    $password
-);
-
-if ($isLogin)
+if ($provider->login($email, $password))
 {
     $provider->persist('cookies');
     // provider.store('cookies')

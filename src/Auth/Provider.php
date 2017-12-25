@@ -9,14 +9,19 @@ abstract class Provider
 {
 
     /**
+     * @var Slice
+     */
+    protected $providerSlice;
+
+    /**
      * @var Content
      */
     protected $content;
 
     /**
-     * @var Slice
+     * @var Validator
      */
-    protected $providerSlice;
+    protected $validator;
 
     /**
      * @var Slice
@@ -38,38 +43,52 @@ abstract class Provider
     }
 
     /**
+     * @param array $options
+     *
+     * @return Validator
+     */
+    protected function auth(array $options): Validator
+    {
+        $validator = $this->validator();
+
+        $login    = $options['login'];
+        $password = $options['password'];
+
+        if ($validator->loginExists($login) && $validator->verify($password))
+        {
+            return $validator;
+        }
+
+        return null;
+    }
+
+    /**
      * @return Validator
      */
     protected function validator(): Validator
     {
-        $class = $this->slice->getRequired('validator.class');
-
-        return new $class($this->providerSlice, $this->slice);
-    }
-
-    public function store(array $token): bool
-    {
-
-    }
-
-    public function login(string $login, string $password)
-    {
-        $validator = $this->validator();
-
-        if ($validator->loginExists($login))
+        if (!$this->validator)
         {
-            if ($validator->passwordVerify($password))
-            {
-                return $this->store(
-                    $validator->generateToken()
-                );
-            }
+            $class = $this->providerSlice->getRequired('validator.class');
+
+            $this->validator = new $class($this->providerSlice, $this->slice);
         }
 
-        return false;
+        return $this->validator;
     }
 
-    abstract public function verify();
-    abstract public function forgot();
+    public function persist($name)
+    {
+
+    }
+
+    public function identifier()
+    {
+        return $this->validator()->identifier();
+    }
+
+//    abstract public function forgot($identifier);
+
+//    abstract public function forgotAll();
 
 }

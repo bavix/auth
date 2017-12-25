@@ -41,11 +41,11 @@ abstract class Validator
      *
      * @return bool
      */
-    abstract public function passwordVerify(string $password): bool;
+    abstract public function verify(string $password): bool;
 
     /**
-     * @return array
+     * @return int|string
      */
-    abstract public function generateToken(): array;
+    abstract public function identifier();
 
 }

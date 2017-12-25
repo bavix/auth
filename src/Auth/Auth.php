@@ -11,9 +11,6 @@ use Bavix\Slice\Slice;
 class Auth
 {
 
-    public const CONTENT_COOKIES = 'cookies';
-    public const CONTENT_SESSION = 'session';
-
     /**
      * @var Content[]
      */
@@ -54,30 +51,6 @@ class Auth
         }
 
         return $this->jwt;
-    }
-
-    /**
-     * @param Cookies $cookies
-     *
-     * @return static
-     */
-    public function setCookies(Cookies $cookies): self
-    {
-        $this->contents[self::CONTENT_COOKIES] = $cookies;
-
-        return $this;
-    }
-
-    /**
-     * @param Session $session
-     *
-     * @return static
-     */
-    public function setSession(Session $session): self
-    {
-        $this->contents[self::CONTENT_SESSION] = $session;
-
-        return $this;
     }
 
     /**
